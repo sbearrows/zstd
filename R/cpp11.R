@@ -3,3 +3,7 @@
 raw_compression <- function(src, level) {
   .Call(`_zstd_raw_compression`, src, level)
 }
+
+decompression <- function(src) {
+  .Call(`_zstd_decompression`, src)
+}
