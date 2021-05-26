@@ -12,10 +12,10 @@ extern "C" SEXP _zstd_raw_compression(SEXP src, SEXP level) {
   END_CPP11
 }
 // code.cpp
-cpp11::writable::raws decompression(writable::raws src);
+cpp11::writable::raws decompression(raws src);
 extern "C" SEXP _zstd_decompression(SEXP src) {
   BEGIN_CPP11
-    return cpp11::as_sexp(decompression(cpp11::as_cpp<cpp11::decay_t<writable::raws>>(src)));
+    return cpp11::as_sexp(decompression(cpp11::as_cpp<cpp11::decay_t<raws>>(src)));
   END_CPP11
 }
 
