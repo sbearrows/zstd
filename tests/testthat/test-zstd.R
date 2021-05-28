@@ -7,6 +7,17 @@ test_that("zstd contents in decompressed files are equal to original file", {
                readChar(fileInput, file.size(fileInput)))
 })
 
+
+test_that("zstd contents in streaming compressed file is smaller than original file", {
+  fileInput <- "simpleTestFile"
+  level <- 10
+  in_con <- file(fileInput, "rb")
+  out_con <- file("output.zstd", "wb")
+  stream_compression(in_con, out_con, level)
+  expect_lt(file.size(fileInput), file.size("output.zstd"))
+})
+
+
 #test compression for different file types?
 #test compression for different file encodings?
 

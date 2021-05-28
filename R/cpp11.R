@@ -7,3 +7,11 @@ raw_compression <- function(src, level) {
 decompression <- function(src) {
   .Call(`_zstd_decompression`, src)
 }
+
+stream <- function(src, dest, level) {
+  invisible(.Call(`_zstd_stream`, src, dest, level))
+}
+
+stream_compression <- function(src, dest, level) {
+  invisible(.Call(`_zstd_stream_compression`, src, dest, level))
+}
