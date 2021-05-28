@@ -14,7 +14,7 @@ test_that("zstd contents in streaming compressed file is smaller than original f
   in_con <- file(fileInput, "rb")
   out_con <- file("output.zstd", "wb")
   stream_compression(in_con, out_con, level)
-  expect_lt(file.size(fileInput), file.size("output.zstd"))
+  expect_lt(file.size("output.zstd"), file.size(fileInput))
 })
 
 
