@@ -100,12 +100,11 @@ cpp11::writable::raws decompression(raws src) {
 
 
 [[cpp11::register]]
-void stream(SEXP src, SEXP dest, int level) {
+void stream_compression(SEXP src, SEXP dest, int level) {
 
 
 
-  //1 get your buffer memory
-  //use standard vector instead of malloc SCB
+  //create buffer memory
 
   size_t const in_bufferSize = ZSTD_CStreamInSize();
   std::vector<uint8_t> in_buff(in_bufferSize);
@@ -117,52 +116,55 @@ void stream(SEXP src, SEXP dest, int level) {
 
   // set level parameters
   if (ZSTD_isError(ZSTD_CCtx_setParameter(context, ZSTD_c_compressionLevel, level))) {
-    cpp11:stop("error with params");
+    cpp11::stop("error with params");
   }
 
   bool last_chunk = true;
 
   do {
 
-    //7 set inBuffer struct
+
     size_t read_in = R_ReadConnection(src, in_buff.data(), in_bufferSize);
 
-    last_chunk = (read_in < in_bufferSize);
+    //checks there is still data to add
+    last_chunk = (in_bufferSize > read_in);
 
-    ZSTD_inBuffer input = {in_buff.data(), read_in, 0 };
+    // set mode
+    ZSTD_EndDirective const mode = last_chunk ? ZSTD_e_end : ZSTD_e_continue;
 
-    int finished;
+    //set inBuffer struct
+    ZSTD_inBuffer input = {in_buff.data(), read_in, 0};
+
+    bool finished = false;
+
     do {
-      ZSTD_outBuffer output = { out_buff.data(), out_bufferSize, 0};
+      //set out buffer struct
+      ZSTD_outBuffer output = {out_buff.data(), out_bufferSize, 0};
+
       size_t const remaining = ZSTD_compressStream2(context, &output, &input, ZSTD_e_continue);
+
       if(ZSTD_isError(remaining)) {
         cpp11::stop("compression2 error");
       }
+      //write output
       R_WriteConnection(dest, out_buff.data(), output.pos);
 
+      //check if we are done and need more space (remaining == 0)
+      //or if we are done and all data is in the output
       finished = last_chunk ? (remaining == 0) : (input.pos == input.size);
 
     } while (!finished);
 
-  } while (last_chunk);
+  } while (!last_chunk);
 
-
-};
-
-[[cpp11::register]]
-void stream_compression(SEXP src, SEXP dest, int level) {
-
-
-
-  stream(src, dest, level);
-
-  //close files!
+  //close files
   static auto close = cpp11::package("base")["close"];
   close(src);
   close(dest);
 
-
 };
+
+
 
 
 
