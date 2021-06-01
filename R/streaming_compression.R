@@ -1,5 +1,5 @@
-streaming_compression <- function(src, dest, level, cores = parallel::detectCores()) {
+stream_compression <- function(src, dest, level, cores = parallel::detectCores()) {
 
 
-  stream_compression(src, dest, level, cores)
+  stream_compression_(src, dest, level, cores)
 }

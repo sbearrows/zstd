@@ -22,7 +22,7 @@ test_that("zstd contents in streaming decompressed file is the same as the input
   level <- 10
   in_con <- file(fileInput, "rb")
   out_con <- file("output.zstd", "wb")
-  streaming_compression(in_con, out_con, level)
+  stream_compression(in_con, out_con, level)
 
 
 

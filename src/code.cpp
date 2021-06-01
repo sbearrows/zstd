@@ -91,7 +91,7 @@ cpp11::writable::raws decompression(raws src) {
 
 
 [[cpp11::register]]
-void stream_compression(SEXP src, SEXP dest, int level, int cores) {
+void stream_compression_(SEXP src, SEXP dest, int level, int cores) {
 
 
 

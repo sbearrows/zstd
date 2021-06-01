@@ -8,8 +8,8 @@ decompression <- function(src) {
   .Call(`_zstd_decompression`, src)
 }
 
-stream_compression <- function(src, dest, level, cores) {
-  invisible(.Call(`_zstd_stream_compression`, src, dest, level, cores))
+stream_compression_ <- function(src, dest, level, cores) {
+  invisible(.Call(`_zstd_stream_compression_`, src, dest, level, cores))
 }
 
 stream_decompression <- function(src, dest) {
