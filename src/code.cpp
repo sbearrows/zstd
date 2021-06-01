@@ -91,7 +91,7 @@ cpp11::writable::raws decompression(raws src) {
 
 
 [[cpp11::register]]
-void stream_compression(SEXP src, SEXP dest, int level) {
+void stream_compression(SEXP src, SEXP dest, int level, int cores) {
 
 
 
@@ -105,6 +105,7 @@ void stream_compression(SEXP src, SEXP dest, int level) {
   // create the context and check for errors
   ZSTD_CCtx* const context = ZSTD_createCCtx();
 
+
   // set level parameters
   if (ZSTD_isError(ZSTD_CCtx_setParameter(context, ZSTD_c_compressionLevel, level))) {
     //close files first
@@ -112,8 +113,19 @@ void stream_compression(SEXP src, SEXP dest, int level) {
     close(src);
     close(dest);
     //error
-    cpp11::stop("error with params");
+    cpp11::stop("error with setting compression level");
   }
+
+  if (ZSTD_isError(ZSTD_CCtx_setParameter(context, ZSTD_c_nbWorkers, cores))) {
+    //close files first
+    static auto close = cpp11::package("base")["close"];
+    close(src);
+    close(dest);
+    //error
+    cpp11::stop("error with setting multithreading");
+  }
+
+
 
   bool last_chunk = true;
 
@@ -245,6 +257,8 @@ void stream_decompression(SEXP src, SEXP dest) {
 
 
 };
+
+
 
 
 
