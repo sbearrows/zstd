@@ -26,17 +26,27 @@ extern "C" SEXP _zstd_stream_compression(SEXP src, SEXP dest, SEXP level) {
     return R_NilValue;
   END_CPP11
 }
+// code.cpp
+void stream_decompression(SEXP src, SEXP dest);
+extern "C" SEXP _zstd_stream_decompression(SEXP src, SEXP dest) {
+  BEGIN_CPP11
+    stream_decompression(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest));
+    return R_NilValue;
+  END_CPP11
+}
 
 extern "C" {
 /* .Call calls */
 extern SEXP _zstd_decompression(SEXP);
 extern SEXP _zstd_raw_compression(SEXP, SEXP);
 extern SEXP _zstd_stream_compression(SEXP, SEXP, SEXP);
+extern SEXP _zstd_stream_decompression(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_zstd_decompression",      (DL_FUNC) &_zstd_decompression,      1},
-    {"_zstd_raw_compression",    (DL_FUNC) &_zstd_raw_compression,    2},
-    {"_zstd_stream_compression", (DL_FUNC) &_zstd_stream_compression, 3},
+    {"_zstd_decompression",        (DL_FUNC) &_zstd_decompression,        1},
+    {"_zstd_raw_compression",      (DL_FUNC) &_zstd_raw_compression,      2},
+    {"_zstd_stream_compression",   (DL_FUNC) &_zstd_stream_compression,   3},
+    {"_zstd_stream_decompression", (DL_FUNC) &_zstd_stream_decompression, 2},
     {NULL, NULL, 0}
 };
 }

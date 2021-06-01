@@ -4,7 +4,7 @@
 
 using namespace cpp11;
 
-//compression and decompression
+
 inline size_t R_ReadConnection(SEXP con, void* buf, size_t n) {
   static auto readBin = cpp11::package("base")["readBin"];
 
@@ -33,25 +33,17 @@ cpp11::writable::raws raw_compression(raws src, int level) {
   size_t src_size = src.size();
 
   //create destination
-  //Size the output with the compress bounds
-  //docs say best performance when dest size >= ZSTD_compressBound(src_size)
   size_t dst_cap = ZSTD_COMPRESSBOUND(src_size);
   cpp11::writable::raws dest(dst_cap);
 
-  //RAW() to get the void * from the raws vector
-  //returns size of source at dest if success else returns an error
   std::size_t new_size = ZSTD_compress(RAW(dest), dst_cap, RAW(src), src_size, level);
 
-
-  //resize dest!
-  dest.resize(new_size);
-
   //check for errors compressing
-  //possibly using ZSTD_getErrorName but is a cstring
-  //use stop not print!
   if (ZSTD_isError(new_size)) {
     cpp11::stop("error");
   }
+
+  dest.resize(new_size);
 
   return dest;
 
@@ -83,14 +75,13 @@ cpp11::writable::raws decompression(raws src) {
   std::size_t new_size = ZSTD_decompress(RAW(dest), dest_cap,
                                          RAW(src), comp_size);
 
-
-  //resize dest
-  dest.resize(new_size);
-
   //check for errors decompressing
   if (ZSTD_isError(new_size)) {
     cpp11::stop("error");
   }
+
+  //resize dest
+  dest.resize(new_size);
 
   return dest;
 
@@ -116,6 +107,11 @@ void stream_compression(SEXP src, SEXP dest, int level) {
 
   // set level parameters
   if (ZSTD_isError(ZSTD_CCtx_setParameter(context, ZSTD_c_compressionLevel, level))) {
+    //close files first
+    static auto close = cpp11::package("base")["close"];
+    close(src);
+    close(dest);
+    //error
     cpp11::stop("error with params");
   }
 
@@ -141,9 +137,14 @@ void stream_compression(SEXP src, SEXP dest, int level) {
       //set out buffer struct
       ZSTD_outBuffer output = {out_buff.data(), out_bufferSize, 0};
 
-      size_t const remaining = ZSTD_compressStream2(context, &output, &input, ZSTD_e_continue);
+      size_t const remaining = ZSTD_compressStream2(context, &output, &input, mode);
 
       if(ZSTD_isError(remaining)) {
+        //close files first
+        static auto close = cpp11::package("base")["close"];
+        close(src);
+        close(dest);
+        //error
         cpp11::stop("compression2 error");
       }
       //write output
@@ -164,7 +165,86 @@ void stream_compression(SEXP src, SEXP dest, int level) {
 
 };
 
+[[cpp11::register]]
+void stream_decompression(SEXP src, SEXP dest) {
 
+  size_t const in_bufferSize = ZSTD_DStreamInSize();
+  std::vector<uint8_t> in_buff(in_bufferSize);
+  size_t const out_bufferSize = ZSTD_DStreamOutSize();
+  std::vector<uint8_t>  out_buff(out_bufferSize);
+
+  ZSTD_DCtx* const dctx = ZSTD_createDCtx();
+
+  if(dctx == NULL) {
+    //close files first
+    static auto close = cpp11::package("base")["close"];
+    close(src);
+    close(dest);
+    //error
+    cpp11::stop("dictionary error in decompression");
+  }
+
+  size_t read;
+  size_t lastRet = 0;
+  int isEmpty = 1;
+
+  //while not 0
+  while ((read = R_ReadConnection(src, in_buff.data(), in_bufferSize))) {
+    isEmpty = 0;
+
+    ZSTD_inBuffer input = { in_buff.data(), read, 0 };
+
+    //while input pos != input size
+    while(input.pos < input.size) {
+      ZSTD_outBuffer output = { out_buff.data(), out_bufferSize, 0 };
+
+      //returns size of buffer or error
+      size_t const ret = ZSTD_decompressStream(dctx, &output, &input);
+
+      if (ZSTD_isError(ret)) {
+        //close files first
+        static auto close = cpp11::package("base")["close"];
+        close(src);
+        close(dest);
+        //error
+        cpp11::stop("streaming decompression error");
+      }
+
+      R_WriteConnection(dest, out_buff.data(), output.pos);
+
+      lastRet = ret;
+    }
+  }
+
+  //isEmpty should update to != 0 unless file is empty
+  if (isEmpty) {
+    //close files first
+    static auto close = cpp11::package("base")["close"];
+    close(src);
+    close(dest);
+    //error
+    cpp11::stop("input is empty");
+  }
+
+
+  if(lastRet != 0) {
+    //close files first
+    static auto close = cpp11::package("base")["close"];
+    close(src);
+    close(dest);
+    //error
+    cpp11::stop("EOF before end of stream");
+  }
+
+
+  //close files
+  static auto close = cpp11::package("base")["close"];
+  close(src);
+  close(dest);
+
+
+
+};
 
 
 

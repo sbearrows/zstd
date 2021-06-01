@@ -11,3 +11,7 @@ decompression <- function(src) {
 stream_compression <- function(src, dest, level) {
   invisible(.Call(`_zstd_stream_compression`, src, dest, level))
 }
+
+stream_decompression <- function(src, dest) {
+  invisible(.Call(`_zstd_stream_decompression`, src, dest))
+}
