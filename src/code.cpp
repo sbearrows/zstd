@@ -27,7 +27,7 @@ inline size_t R_WriteConnection(SEXP con, void* buf, size_t n) {
 }
 
 [[cpp11::register]]
-cpp11::writable::raws raw_compression(raws src, int level) {
+cpp11::writable::raws compression_(raws src, int level) {
 
   //get the number of elements
   size_t src_size = src.size();
@@ -53,7 +53,7 @@ cpp11::writable::raws raw_compression(raws src, int level) {
 
 
 [[cpp11::register]]
-cpp11::writable::raws decompression(raws src) {
+cpp11::writable::raws decompression_(raws src) {
 
   //get element size
   size_t comp_size = src.size();
@@ -178,7 +178,7 @@ void stream_compression_(SEXP src, SEXP dest, int level, int cores) {
 };
 
 [[cpp11::register]]
-void stream_decompression(SEXP src, SEXP dest) {
+void stream_decompression_(SEXP src, SEXP dest) {
 
   size_t const in_bufferSize = ZSTD_DStreamInSize();
   std::vector<uint8_t> in_buff(in_bufferSize);

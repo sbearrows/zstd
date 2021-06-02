@@ -5,17 +5,17 @@
 #include "cpp11/declarations.hpp"
 
 // code.cpp
-cpp11::writable::raws raw_compression(raws src, int level);
-extern "C" SEXP _zstd_raw_compression(SEXP src, SEXP level) {
+cpp11::writable::raws compression_(raws src, int level);
+extern "C" SEXP _zstd_compression_(SEXP src, SEXP level) {
   BEGIN_CPP11
-    return cpp11::as_sexp(raw_compression(cpp11::as_cpp<cpp11::decay_t<raws>>(src), cpp11::as_cpp<cpp11::decay_t<int>>(level)));
+    return cpp11::as_sexp(compression_(cpp11::as_cpp<cpp11::decay_t<raws>>(src), cpp11::as_cpp<cpp11::decay_t<int>>(level)));
   END_CPP11
 }
 // code.cpp
-cpp11::writable::raws decompression(raws src);
-extern "C" SEXP _zstd_decompression(SEXP src) {
+cpp11::writable::raws decompression_(raws src);
+extern "C" SEXP _zstd_decompression_(SEXP src) {
   BEGIN_CPP11
-    return cpp11::as_sexp(decompression(cpp11::as_cpp<cpp11::decay_t<raws>>(src)));
+    return cpp11::as_sexp(decompression_(cpp11::as_cpp<cpp11::decay_t<raws>>(src)));
   END_CPP11
 }
 // code.cpp
@@ -27,26 +27,26 @@ extern "C" SEXP _zstd_stream_compression_(SEXP src, SEXP dest, SEXP level, SEXP 
   END_CPP11
 }
 // code.cpp
-void stream_decompression(SEXP src, SEXP dest);
-extern "C" SEXP _zstd_stream_decompression(SEXP src, SEXP dest) {
+void stream_decompression_(SEXP src, SEXP dest);
+extern "C" SEXP _zstd_stream_decompression_(SEXP src, SEXP dest) {
   BEGIN_CPP11
-    stream_decompression(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest));
+    stream_decompression_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest));
     return R_NilValue;
   END_CPP11
 }
 
 extern "C" {
 /* .Call calls */
-extern SEXP _zstd_decompression(SEXP);
-extern SEXP _zstd_raw_compression(SEXP, SEXP);
+extern SEXP _zstd_compression_(SEXP, SEXP);
+extern SEXP _zstd_decompression_(SEXP);
 extern SEXP _zstd_stream_compression_(SEXP, SEXP, SEXP, SEXP);
-extern SEXP _zstd_stream_decompression(SEXP, SEXP);
+extern SEXP _zstd_stream_decompression_(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_zstd_decompression",        (DL_FUNC) &_zstd_decompression,        1},
-    {"_zstd_raw_compression",      (DL_FUNC) &_zstd_raw_compression,      2},
-    {"_zstd_stream_compression_",  (DL_FUNC) &_zstd_stream_compression_,  4},
-    {"_zstd_stream_decompression", (DL_FUNC) &_zstd_stream_decompression, 2},
+    {"_zstd_compression_",          (DL_FUNC) &_zstd_compression_,          2},
+    {"_zstd_decompression_",        (DL_FUNC) &_zstd_decompression_,        1},
+    {"_zstd_stream_compression_",   (DL_FUNC) &_zstd_stream_compression_,   4},
+    {"_zstd_stream_decompression_", (DL_FUNC) &_zstd_stream_decompression_, 2},
     {NULL, NULL, 0}
 };
 }
