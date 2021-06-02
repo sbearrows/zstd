@@ -7,31 +7,30 @@
 #'   compression standard file extension is '.zstd'.
 #' @param level Compression levels ranging from negative 5 to 22
 #' @param cores For multithreading how many cores should be used. By default
-#'   this is set using parallel::detectCores()
+#'   this is set using parallel::detectCores
 #' @name zstd
 NULL
 #> NULL
 
-#' @rdname zstd
 #' @export
+#' @rdname zstd
 compression <- function(src, level) {
   compression_(src, level)
 }
-
-#' @rdname zstd
 #' @export
+#' @rdname zstd
 decompression <- function(src) {
   decompression_(src)
 }
 
-#' @rdname zstd
 #' @export
+#' @rdname zstd
 stream_compression <- function(src, dest, level, cores = parallel::detectCores()) {
   stream_compression_(src, dest, level, cores)
 }
 
-#' @rdname zstd
 #' @export
+#' @rdname zstd
 stream_decompression <- function(src, dest) {
   stream_decompression_(src, dest)
 }
