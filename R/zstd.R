@@ -1,25 +1,37 @@
+#' Zstd compression
+#'
 #' Lossless compression of input files
 #'
 #' @param src Source file to be compressed or decompressed.
 #' @param dest Output file name of compression or decompression. In the case of
-#' compression standard file extension is '.zstd'.
+#'   compression standard file extension is '.zstd'.
 #' @param level Compression levels ranging from negative 5 to 22
 #' @param cores For multithreading how many cores should be used. By default
-#' this is set using parallel::detectCores()
+#'   this is set using parallel::detectCores()
+#' @name zstd
+NULL
+#> NULL
 
+#' @rdname zstd
+#' @export
 compression <- function(src, level) {
   compression_(src, level)
 }
 
+#' @rdname zstd
+#' @export
 decompression <- function(src) {
   decompression_(src)
 }
 
-
+#' @rdname zstd
+#' @export
 stream_compression <- function(src, dest, level, cores = parallel::detectCores()) {
   stream_compression_(src, dest, level, cores)
 }
 
+#' @rdname zstd
+#' @export
 stream_decompression <- function(src, dest) {
   stream_decompression_(src, dest)
 }

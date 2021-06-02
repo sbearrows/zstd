@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/sbearrows/zstd/workflows/R-CMD-check/badge.svg)](https://github.com/sbearrows/zstd/actions)
 <!-- badges: end -->
 
-The goal of zstd is to ...
+Fast, lossless compression using the Zstandard algorithm
 
 ## Installation
 
@@ -17,10 +17,31 @@ install.packages("zstd")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Simple data compression example:
 
 ``` r
 library(zstd)
-## basic example code
+# simple compression and decompression
+input <- readBin("input", what = 'raw', n = file.size("input"))
+output <- compression(input, level = 10)
+original <- decompression(output)
+
+# streamable compression
+# open input and output connections
+input <- file("input", "rb")
+output <- file("output.zstd", "wb")
+
+# output written to file
+stream_compression(input, output, level = 10)
+
+# streamable decompression
+# open input and output connections
+input <- file("output.zstd", "rb")
+output <- file("original", "wb")
+
+# output written to file
+stream_decompression(input, output)
+
+
 ```
 
