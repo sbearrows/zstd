@@ -20,5 +20,6 @@ SystemRequirements: C++11
 URL: https://github.com/sbearrows/zstd
 BugReports: https://github.com/sbearrows/zstd/issues
 Suggests: 
+    covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
