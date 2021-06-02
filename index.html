@@ -71,7 +71,7 @@
 <a href="#zstd" class="anchor"></a>zstd</h1></div>
 <!-- badges: start -->
 
-<p>The goal of zstd is to …</p>
+<p>Fast, lossless compression using the Zstandard algorithm</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -82,10 +82,30 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>Simple data compression example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sbearrows/zstd">zstd</a></span><span class="op">)</span>
-<span class="co">## basic example code</span></code></pre></div>
+<span class="co"># simple compression and decompression</span>
+<span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readBin.html">readBin</a></span><span class="op">(</span><span class="st">"input"</span>, what <span class="op">=</span> <span class="st">'raw'</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html">file.size</a></span><span class="op">(</span><span class="st">"input"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/compression.html">compression</a></span><span class="op">(</span><span class="va">input</span>, level <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+<span class="va">original</span> <span class="op">&lt;-</span> <span class="fu">decompression</span><span class="op">(</span><span class="va">output</span><span class="op">)</span>
+
+<span class="co"># streamable compression</span>
+<span class="co"># open input and output connections</span>
+<span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span><span class="op">(</span><span class="st">"input"</span>, <span class="st">"rb"</span><span class="op">)</span>
+<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span><span class="op">(</span><span class="st">"output.zstd"</span>, <span class="st">"wb"</span><span class="op">)</span>
+
+<span class="co"># output written to file</span>
+<span class="fu">stream_compression</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, level <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
+
+<span class="co"># streamable decompression</span>
+<span class="co"># open input and output connections</span>
+<span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span><span class="op">(</span><span class="st">"output.zstd"</span>, <span class="st">"rb"</span><span class="op">)</span>
+<span class="va">output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/connections.html">file</a></span><span class="op">(</span><span class="st">"original"</span>, <span class="st">"wb"</span><span class="op">)</span>
+
+<span class="co"># output written to file</span>
+<span class="fu">stream_decompression</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span>
+</code></pre></div>
 </div>
 </div>
   </div>
@@ -103,8 +123,8 @@
 <div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li>`use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license</li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 <div class="developers">
