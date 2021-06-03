@@ -142,6 +142,8 @@
 #define ZSTD_DEPS_IO
 
 #include <stdio.h>
+#include "cran.h"
+
 #define ZSTD_DEBUG_PRINT(...) fprintf(stderr, __VA_ARGS__)
 
 #endif /* ZSTD_DEPS_IO */
@@ -20351,9 +20353,9 @@ ZSTD_compressBlock_fast_generic(
 #ifdef __INTEL_COMPILER
     /* From intel 'The vector pragma indicates that the loop should be
      * vectorized if it is legal to do so'. Can be used together with
-     * #pragma ivdep (but have opted to exclude that because intel
+     * # pragma ivdep (but have opted to exclude that because intel
      * warns against using it).*/
-    #pragma vector always
+    # pragma vector always
 #endif
     while (ip1 < ilimit) {   /* < instead of <=, because check at ip0+2 */
         size_t mLength;
@@ -24360,6 +24362,8 @@ size_t ZSTD_compressBlock_btultra_extDict(
     && !defined(__MINGW32__)
 
 #  include <stdio.h>
+#  include "cran.h"
+
 #  include <unistd.h>
 #  include <sys/times.h>
 
@@ -33150,6 +33154,8 @@ size_t ZSTD_decompressBlock(ZSTD_DCtx* dctx,
 *  Dependencies
 ***************************************/
 #include <stdio.h>  /* fprintf */
+#include "cran.h"
+
 #include <stdlib.h> /* malloc, free, qsort */
 #include <string.h> /* memset */
 #include <time.h>   /* clock */
@@ -33169,6 +33175,8 @@ size_t ZSTD_decompressBlock(ZSTD_DCtx* dctx,
  */
 
 #include <stdio.h>  /* fprintf */
+#include "cran.h"
+
 #include <stdlib.h> /* malloc, free, qsort */
 #include <string.h> /* memset */
 #include <time.h>   /* clock */
@@ -34866,7 +34874,7 @@ ZDICTLIB_API size_t ZDICT_optimizeTrainFromBuffer_cover(
 
 /*- Compiler specifics -*/
 #ifdef __clang__
-#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+# pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
 
 #if defined(_MSC_VER)
@@ -34878,6 +34886,7 @@ ZDICTLIB_API size_t ZDICT_optimizeTrainFromBuffer_cover(
 /*- Dependencies -*/
 #include <assert.h>
 #include <stdio.h>
+#include "cran.h"
 #include <stdlib.h>
 
 /**** start inlining divsufsort.h ****/
@@ -36416,13 +36425,13 @@ note:
     {
         buf = SA + m;
         c0 = ALPHABET_SIZE - 2, c1 = ALPHABET_SIZE - 1, j = m;
-#pragma omp parallel default(shared) private(bufsize, curbuf, k, l, d0, d1)
+# pragma omp parallel default(shared) private(bufsize, curbuf, k, l, d0, d1)
         {
           bufsize = (n - (2 * m)) / omp_get_num_threads();
           curbuf = buf + omp_get_thread_num() * bufsize;
           k = 0;
           for(;;) {
-            #pragma omp critical(sssort_lock)
+            # pragma omp critical(sssort_lock)
             {
               if(0 < (l = j)) {
                 d0 = c0, d1 = c1;
@@ -36835,6 +36844,7 @@ divbwt(const unsigned char *T, unsigned char *U, int *A, int n, unsigned char * 
 *  Dependencies
 ***************************************/
 #include <stdio.h>  /* fprintf */
+#include "cran.h"
 #include <stdlib.h> /* malloc, free, qsort */
 #include <string.h> /* memset */
 #include <time.h>   /* clock */
@@ -36860,7 +36870,6 @@ divbwt(const unsigned char *T, unsigned char *U, int *A, int n, unsigned char * 
 #define FASTCOVER_DEFAULT_SPLITPOINT 0.75
 #define DEFAULT_F 20
 #define DEFAULT_ACCEL 1
-
 
 /*-*************************************
 *  Console display
@@ -37622,6 +37631,7 @@ ZDICT_optimizeTrainFromBuffer_fastCover(
 #include <stdlib.h>        /* malloc, free */
 #include <string.h>        /* memset */
 #include <stdio.h>         /* fprintf, fopen, ftello64 */
+#include "cran.h"
 #include <time.h>          /* clock */
 
 /**** skipping file: ../common/mem.h ****/
