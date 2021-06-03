@@ -117,29 +117,34 @@
     <p>Lossless compression of input files</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compression</span><span class='op'>(</span><span class='va'>src</span>, <span class='va'>level</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>compress_raw</span><span class='op'>(</span><span class='va'>src</span>, <span class='va'>level</span><span class='op'>)</span>
 
-<span class='fu'>decompression</span><span class='op'>(</span><span class='va'>src</span><span class='op'>)</span>
+<span class='fu'>decompress_raw</span><span class='op'>(</span><span class='va'>src</span><span class='op'>)</span>
 
-<span class='fu'>stream_compression</span><span class='op'>(</span><span class='va'>src</span>, <span class='va'>dest</span>, <span class='va'>level</span>, cores <span class='op'>=</span> <span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>compress_file</span><span class='op'>(</span><span class='va'>s_file</span>, <span class='va'>d_file</span>, <span class='va'>level</span>, cores <span class='op'>=</span> <span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>stream_decompression</span><span class='op'>(</span><span class='va'>src</span>, <span class='va'>dest</span><span class='op'>)</span></pre>
+<span class='fu'>decompress_file</span><span class='op'>(</span><span class='va'>s_file</span>, <span class='va'>d_file</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>src</th>
-      <td><p>Source file to be compressed or decompressed.</p></td>
+      <td><p>Raw source vector to be compressed or decompressed.</p></td>
     </tr>
     <tr>
       <th>level</th>
       <td><p>Compression levels ranging from negative 5 to 22</p></td>
     </tr>
     <tr>
-      <th>dest</th>
-      <td><p>Output file name of compression or decompression. In the case of
-compression standard file extension is '.zstd'.</p></td>
+      <th>s_file</th>
+      <td><p>Source file path of compression or decompression. Standard
+file extension for compressed file is '.zst'</p></td>
+    </tr>
+    <tr>
+      <th>d_file</th>
+      <td><p>Destination file path of compression or decompression. Standard
+file extension for compressed file is '.zst'</p></td>
     </tr>
     <tr>
       <th>cores</th>
@@ -148,6 +153,11 @@ this is set using parallel::detectCores()</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If compressing or decompressing from a raw vector the output will also
+be a raw vector. If compressing or decompressing from a file path or file
+connection, the output will be placed in the file pointed to by d_file.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
