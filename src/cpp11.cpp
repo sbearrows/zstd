@@ -5,48 +5,48 @@
 #include "cpp11/declarations.hpp"
 
 // code.cpp
-cpp11::writable::raws compression_(raws src, int level);
-extern "C" SEXP _zstd_compression_(SEXP src, SEXP level) {
+cpp11::writable::raws compress_raw_(raws src, int level);
+extern "C" SEXP _zstd_compress_raw_(SEXP src, SEXP level) {
   BEGIN_CPP11
-    return cpp11::as_sexp(compression_(cpp11::as_cpp<cpp11::decay_t<raws>>(src), cpp11::as_cpp<cpp11::decay_t<int>>(level)));
+    return cpp11::as_sexp(compress_raw_(cpp11::as_cpp<cpp11::decay_t<raws>>(src), cpp11::as_cpp<cpp11::decay_t<int>>(level)));
   END_CPP11
 }
 // code.cpp
-cpp11::writable::raws decompression_(raws src);
-extern "C" SEXP _zstd_decompression_(SEXP src) {
+cpp11::writable::raws decompress_raw_(raws src);
+extern "C" SEXP _zstd_decompress_raw_(SEXP src) {
   BEGIN_CPP11
-    return cpp11::as_sexp(decompression_(cpp11::as_cpp<cpp11::decay_t<raws>>(src)));
+    return cpp11::as_sexp(decompress_raw_(cpp11::as_cpp<cpp11::decay_t<raws>>(src)));
   END_CPP11
 }
 // code.cpp
-void stream_compression_(SEXP src, SEXP dest, int level, int cores);
-extern "C" SEXP _zstd_stream_compression_(SEXP src, SEXP dest, SEXP level, SEXP cores) {
+void compress_connection_(SEXP src, SEXP dest, int level, int cores);
+extern "C" SEXP _zstd_compress_connection_(SEXP src, SEXP dest, SEXP level, SEXP cores) {
   BEGIN_CPP11
-    stream_compression_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest), cpp11::as_cpp<cpp11::decay_t<int>>(level), cpp11::as_cpp<cpp11::decay_t<int>>(cores));
+    compress_connection_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest), cpp11::as_cpp<cpp11::decay_t<int>>(level), cpp11::as_cpp<cpp11::decay_t<int>>(cores));
     return R_NilValue;
   END_CPP11
 }
 // code.cpp
-void stream_decompression_(SEXP src, SEXP dest);
-extern "C" SEXP _zstd_stream_decompression_(SEXP src, SEXP dest) {
+void decompress_connection_(SEXP src, SEXP dest);
+extern "C" SEXP _zstd_decompress_connection_(SEXP src, SEXP dest) {
   BEGIN_CPP11
-    stream_decompression_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest));
+    decompress_connection_(cpp11::as_cpp<cpp11::decay_t<SEXP>>(src), cpp11::as_cpp<cpp11::decay_t<SEXP>>(dest));
     return R_NilValue;
   END_CPP11
 }
 
 extern "C" {
 /* .Call calls */
-extern SEXP _zstd_compression_(SEXP, SEXP);
-extern SEXP _zstd_decompression_(SEXP);
-extern SEXP _zstd_stream_compression_(SEXP, SEXP, SEXP, SEXP);
-extern SEXP _zstd_stream_decompression_(SEXP, SEXP);
+extern SEXP _zstd_compress_connection_(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _zstd_compress_raw_(SEXP, SEXP);
+extern SEXP _zstd_decompress_connection_(SEXP, SEXP);
+extern SEXP _zstd_decompress_raw_(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_zstd_compression_",          (DL_FUNC) &_zstd_compression_,          2},
-    {"_zstd_decompression_",        (DL_FUNC) &_zstd_decompression_,        1},
-    {"_zstd_stream_compression_",   (DL_FUNC) &_zstd_stream_compression_,   4},
-    {"_zstd_stream_decompression_", (DL_FUNC) &_zstd_stream_decompression_, 2},
+    {"_zstd_compress_connection_",   (DL_FUNC) &_zstd_compress_connection_,   4},
+    {"_zstd_compress_raw_",          (DL_FUNC) &_zstd_compress_raw_,          2},
+    {"_zstd_decompress_connection_", (DL_FUNC) &_zstd_decompress_connection_, 2},
+    {"_zstd_decompress_raw_",        (DL_FUNC) &_zstd_decompress_raw_,        1},
     {NULL, NULL, 0}
 };
 }

@@ -2,30 +2,38 @@
 % Please edit documentation in R/zstd.R
 \name{zstd}
 \alias{zstd}
-\alias{compression}
-\alias{decompression}
-\alias{stream_compression}
-\alias{stream_decompression}
+\alias{compress_raw}
+\alias{decompress_raw}
+\alias{compress_file}
+\alias{decompress_file}
 \title{Zstd compression}
 \usage{
-compression(src, level)
+compress_raw(src, level)
 
-decompression(src)
+decompress_raw(src)
 
-stream_compression(src, dest, level, cores = parallel::detectCores())
+compress_file(s_file, d_file, level, cores = parallel::detectCores())
 
-stream_decompression(src, dest)
+decompress_file(s_file, d_file)
 }
 \arguments{
-\item{src}{Source file to be compressed or decompressed.}
+\item{src}{Raw source vector to be compressed or decompressed.}
 
 \item{level}{Compression levels ranging from negative 5 to 22}
 
-\item{dest}{Output file name of compression or decompression. In the case of
-compression standard file extension is '.zstd'.}
+\item{s_file}{Source file path of compression or decompression. Standard
+file extension for compressed file is '.zst'}
+
+\item{d_file}{Destination file path of compression or decompression. Standard
+file extension for compressed file is '.zst'}
 
 \item{cores}{For multithreading how many cores should be used. By default
 this is set using parallel::detectCores()}
+}
+\value{
+If compressing or decompressing from a raw vector the output will also
+be a raw vector. If compressing or decompressing from a file path or file
+connection, the output will be placed in the file pointed to by d_file.
 }
 \description{
 Lossless compression of input files

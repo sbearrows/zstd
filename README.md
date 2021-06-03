@@ -27,20 +27,10 @@ output <- compression(input, level = 10)
 original <- decompression(output)
 
 # streamable compression
-# open input and output connections
-input <- file("input", "rb")
-output <- file("output.zstd", "wb")
-
-# output written to file
-stream_compression(input, output, level = 10)
+stream_compression("input", "output.zst", level = 10)
 
 # streamable decompression
-# open input and output connections
-input <- file("output.zstd", "rb")
-output <- file("original", "wb")
-
-# output written to file
-stream_decompression(input, output)
+stream_decompression("output.zst", "original")
 
 
 ```
