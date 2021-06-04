@@ -1,13 +1,14 @@
 Package: zstd
-Title: What the Package Does (One Line, Title Case)
+Title: Compress and decompress raw vectors and files
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    c(person(given = "Shelby",
+           family = "Bearrows",
+           role = c("aut", "cre")),
+      person(give = "Jim",
+             family = "Hester",
+             role = c("auth", "cre")))
+Description: Lossless data compression using Zstandard algorithm
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
