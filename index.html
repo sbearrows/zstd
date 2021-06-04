@@ -66,6 +66,7 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="zstd" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#zstd" class="anchor"></a>zstd</h1></div>
@@ -75,15 +76,21 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of zstd from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"zstd"</span><span class="op">)</span></code></pre></div>
 </div>
+</div>
+<div id="install-the-development-version-from-github" class="section level1">
+<h1 class="hasAnchor">
+<a href="#install-the-development-version-from-github" class="anchor"></a>Install the development version from GitHub:</h1>
+</div>
+<div id="installpackagesdevtools" class="section level1">
+<h1 class="hasAnchor">
+<a href="#installpackagesdevtools" class="anchor"></a>install.packages(“devtools”)</h1>
+<p>devtools::install_github(“sbearrows/zstd”)</p>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Simple data compression example:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sbearrows/zstd">zstd</a></span><span class="op">)</span>
 <span class="co"># simple compression and decompression</span>
 <span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readBin.html">readBin</a></span><span class="op">(</span><span class="st">"input"</span>, what <span class="op">=</span> <span class="st">'raw'</span>, n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.info.html">file.size</a></span><span class="op">(</span><span class="st">"input"</span><span class="op">)</span><span class="op">)</span>
@@ -98,6 +105,7 @@
 </code></pre></div>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
