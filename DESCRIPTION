@@ -4,10 +4,11 @@ Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Shelby",
            family = "Bearrows",
-           role = c("aut", "cre")),
+           role = c("aut", "cre"),
+	         email = "shelby.bearrows@rstudio.com"),
       person(given = "Jim",
              family = "Hester",
-             role = c("auth", "cre")))
+             role = "aut"))
 Description: Lossless data compression using Zstandard algorithm.
 License: MIT + file LICENSE
 Encoding: UTF-8
