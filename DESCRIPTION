@@ -5,10 +5,10 @@ Authors@R:
     c(person(given = "Shelby",
            family = "Bearrows",
            role = c("aut", "cre")),
-      person(give = "Jim",
+      person(given = "Jim",
              family = "Hester",
              role = c("auth", "cre")))
-Description: Lossless data compression using Zstandard algorithm
+Description: Lossless data compression using Zstandard algorithm.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

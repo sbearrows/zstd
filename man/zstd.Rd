@@ -22,13 +22,13 @@ decompress_file(s_file, d_file)
 \item{level}{Compression levels ranging from negative 5 to 22}
 
 \item{s_file}{Source file path of compression or decompression. Standard
-file extension for compressed file is '.zst'}
+file extension for compressed file is '.zst'.}
 
 \item{d_file}{Destination file path of compression or decompression. Standard
-file extension for compressed file is '.zst'}
+file extension for compressed file is '.zst'.}
 
 \item{cores}{For multithreading how many cores should be used. By default
-this is set using parallel::detectCores()}
+this is set using parallel::detectCores().}
 }
 \value{
 If compressing or decompressing from a raw vector the output will also
