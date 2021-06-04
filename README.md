@@ -9,11 +9,9 @@ Fast, lossless compression using the Zstandard algorithm
 
 ## Installation
 
-You can install the released version of zstd from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("zstd")
-```
+# Install the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("sbearrows/zstd")
 
 ## Example
 
